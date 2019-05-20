@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sidekiq-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: sidekiq
+    spec:
+      containers:
+      - name: sidekiq
+        image: salahkhaled101/drkiq:fin
+        imagePullPolicy: "IfNotPresent"
+        command: [ 'sh', '-c', 'bundle exec sidekiq -C config/sidekiq.yml' ]
+        ports:
+        - containerPort: 8000
+        envFrom:
+        - configMapRef:
+            name: sidekiq-configmap
+        volumeMounts:
+        - mountPath: /drkiq/public
+          name: sidekiq-volume
+      volumes:
+      - name: sidekiq-volume
+        persistentVolumeClaim:
+          claimName: sidekiq-pvc

@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: redis-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:3.0.5
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: redis
+          containerPort: 6379
+        volumeMounts:
+        - mountPath: /var/lib/redis/data
+          name: redis-volume
+      volumes:
+        - name: redis-volume
+          persistentVolumeClaim:
+              claimName: redis-pvc
+
