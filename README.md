@@ -26,6 +26,7 @@ Create New Rails app with postgres database:
 rails new app-name --database=postgresql
 ```
 
+
 Usage
 ---
 
