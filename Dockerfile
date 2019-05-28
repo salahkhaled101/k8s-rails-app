@@ -1,5 +1,5 @@
 # Use the barebones version of Ruby 2.2.3.
-FROM ruby:2.3.3-slim
+FROM ruby:2.4.0-slim
 
 # Optionally set a maintainer name to let people know who made this image.
 MAINTAINER Nick Janetakis <nick.janetakis@gmail.com>
@@ -9,6 +9,15 @@ MAINTAINER Nick Janetakis <nick.janetakis@gmail.com>
 # - nodejs: Compile assets
 # - libpq-dev: Communicate with postgres through the postgres gem
 # - postgresql-client-9.4: In case you want to talk directly to postgres
+
+
+RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list
+
+#RUN printf "deb http://ftp.debian.org/debian wheezy main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb-src http://ftp.debian.org/debian wheezy main\ndeb http://security.debian.org/ stretch/updates main contrib non-free" > /etc/apt/sources.list
+
+#RUN sh -c "echo 'Dir::Ignore-Files-Silently:: \"(.save|.distupgrade)$\";' > /etc/apt/apt.conf.d/99ignoresave"
+
+
 RUN apt-get update && apt-get install -qq -y build-essential nodejs libpq-dev postgresql-client-9.4 --fix-missing --no-install-recommends
 
 # Set an environment variable to store where the app is installed to inside
